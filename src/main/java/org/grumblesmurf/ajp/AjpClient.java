@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.InetSocketAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
 
@@ -154,6 +156,14 @@ public class AjpClient
 
     public static AjpClient newInstance(String host, int port)
         throws UnknownHostException, IOException {
-        return newInstance(new Socket(host, port));
+        return newInstance(host, port, 0);
+    }
+
+    public static AjpClient newInstance(String host, int port, int timeout)
+        throws UnknownHostException, IOException {
+        Socket socket = new Socket();
+        socket.connect((SocketAddress) new InetSocketAddress(host, port), timeout);
+        socket.setSoTimeout(timeout);
+        return newInstance(socket);
     }
 }

@@ -22,14 +22,22 @@ import java.net.URL;
 
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class AjpCommandLineClient
 {
     public static void main(String[] args) throws Exception {
+        int timeout = 0;
+        if (args[0].equals("--timeout"))
+        {
+          timeout = Integer.parseInt(args[1]);
+          args = ArrayUtils.removeAll(args, 0, 1);
+        }
+
         String host = args[0];
         int port = Integer.parseInt(args[1]);
 
-        AjpClient ac = AjpClient.newInstance(host, port);
+        AjpClient ac = AjpClient.newInstance(host, port, timeout);
         if (args.length == 2) {
             System.out.printf("CPing %s:%s: %s%n", host, port, ac.cping() ? "OK" : "NOK");
         } else {
