@@ -159,7 +159,7 @@ public class AjpClient
         return newInstance(host, port, 0);
     }
 
-    public static AjpClient newInstance(String host, int port, int timeout)
+    public final static AjpClient newInstance(final String host, final int port, final int timeout)
         throws UnknownHostException, IOException {
         Socket socket = new Socket();
         socket.connect((SocketAddress) new InetSocketAddress(host, port), timeout);
